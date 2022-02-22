@@ -2,7 +2,6 @@ import tkinter as tk
 import tkinter.messagebox
 import decimal
 from decimal import Decimal
-from unittest import result
 
 
 def hdiv(output_txt, dividend, divisor, accuracy=0):
@@ -152,7 +151,7 @@ sub_button = tk.Button(
 sub_button.grid(row=4, column=1)
 
 sub_button = tk.Button(
-    win, text='**', justify=tk.CENTER, width=10, font=('Microsoft YaHei', 20),
+    win, text='n次方', justify=tk.CENTER, width=10, font=('Microsoft YaHei', 20),
     command=lambda:pre_calc(txt, 'hpow')
     )
 sub_button.grid(row=4, column=2)
@@ -170,13 +169,13 @@ div_button = tk.Button(
 div_button.grid(row=5, column=1)
 
 div_button = tk.Button(
-    win, text='calc', justify=tk.LEFT, width=10, font=('Microsoft YaHei', 20), bg='lightcyan',
+    win, text='算式', justify=tk.LEFT, width=10, font=('Microsoft YaHei', 20), bg='lightcyan',
     command=lambda:pre_calc(txt, 'calc_input')
     )
 div_button.grid(row=5, column=2)
 
 clr_button = tk.Button(
-    win, text='reset', justify=tk.LEFT, width=10, font=('Microsoft YaHei', 20),
+    win, text='清屏', justify=tk.LEFT, width=10, font=('Microsoft YaHei', 20),
     command=lambda:reset_all()
     )
 clr_button.grid(row=7, column=2)
