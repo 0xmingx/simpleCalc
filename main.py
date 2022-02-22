@@ -1,9 +1,11 @@
 import tkinter as tk
+import tkinter.messagebox
 import decimal
 from decimal import Decimal
+from unittest import result
 
 
-def hdiv(dividend, divisor, accuracy=0):
+def hdiv(output_txt, dividend, divisor, accuracy=0):
     '''
     参数:
         dividend: 被除数
@@ -44,34 +46,69 @@ def hdiv(dividend, divisor, accuracy=0):
         res += str(round(dividend // divisor))
         remainder = dividend % divisor
     
-    txt.delete('1.0', tk.END)
-    txt.insert('1.0', res)
+    output_txt.delete('1.0', tk.END)
+    output_txt.insert('1.0', res)
 
 
-def hmul(a, b):
-    txt.delete('1.0', tk.END)
-    txt.insert('1.0', a*b)
+def hmul(output_txt, a, b):
+    output_txt.delete('1.0', tk.END)
+    output_txt.insert('1.0', a*b)
 
 
-def hsum(a, b):
-    txt.delete('1.0', tk.END)
-    txt.insert('1.0', a+b)
+def hsum(output_txt, a, b):
+    output_txt.delete('1.0', tk.END)
+    output_txt.insert('1.0', a+b)
 
 
-def hsub(a, b):
-    txt.delete('1.0', tk.END)
-    txt.insert('1.0', a-b)
+def hsub(output_txt, a, b):
+    output_txt.delete('1.0', tk.END)
+    output_txt.insert('1.0', a-b)
 
 
-def hpow(a, b):
-    txt.delete('1.0', tk.END)
-    txt.insert('1.0', a**b)
+def hpow(output_txt, a, b):
+    output_txt.delete('1.0', tk.END)
+    if b < 1:
+        output_txt.insert('1.0', float(a)**float(b))
+    else:
+        output_txt.insert('1.0', a**b)
 
 
 # like (2**342)*(3**38)*(5**48)*(7**8)*(11**4)*(13**4)*(17**4)*(19**4)*(37**2)*(7440427**2)
-def calc_input(s):
+def calc_input(output_txt, s):
+    output_txt.delete('1.0', tk.END)
+    output_txt.insert('1.0', eval(s))
+
+
+def pre_calc(output_txt, func_type):
+
+    if num1_entry.get()=='' or num1_entry.get()=='':
+        if func_type != 'calc_input':
+            return tkinter.messagebox.showinfo('提示', '输入不能为空')
+    
+    if func_type == 'hsum':
+        hsum(output_txt, Decimal(num1_entry.get()), Decimal(num2_entry.get()))
+    elif func_type == 'hsub':
+        hsub(output_txt, Decimal(num1_entry.get()), Decimal(num2_entry.get()))
+    elif func_type == 'hmul':
+        hmul(output_txt, Decimal(num1_entry.get()), Decimal(num2_entry.get()))
+    elif func_type == 'hdiv':
+        hdiv(output_txt, Decimal(num1_entry.get()), Decimal(num2_entry.get()), int(num3_entry.get()))
+    elif func_type == 'hpow':
+        hpow(output_txt, Decimal(num1_entry.get()), Decimal(num2_entry.get()))
+    elif func_type == 'calc_input':
+        equation = txt.get('1.0', tk.END)
+        try:
+            calc_input(output_txt, equation)
+        except SyntaxError:
+            return tkinter.messagebox.showinfo('提示', '输入错误\n%s'%equation)
+
+
+def reset_all():
     txt.delete('1.0', tk.END)
-    txt.insert('1.0', eval(s))
+    num1_entry.delete(0, tk.END)
+    num2_entry.delete(0, tk.END)
+    num3_entry.delete(0, tk.END)
+    num3_entry.insert(0, 10)
 
 
 decimal.getcontext().prec = decimal.MAX_PREC
@@ -97,45 +134,51 @@ num2_entry = tk.Entry(win, justify=tk.LEFT, width=30, font=('Microsoft YaHei', 2
 num2_entry.grid(row=3, column=1, columnspan=5)
 
 num3_label = tk.Label(win, text='除法精度',justify=tk.LEFT, height=2, width=5, font=('Microsoft YaHei', 13))
-num3_label.grid(row=7, column=0)
+num3_label.grid(row=6, column=0)
 num3_entry = tk.Entry(win, justify=tk.LEFT, width=15, font=('Microsoft YaHei', 20))
-num3_entry.grid(row=7, column=1)
+num3_entry.grid(row=6, column=1)
 num3_entry.insert(0, 10)
 
 sum_button = tk.Button(
     win, text='+', justify=tk.CENTER, width=10, font=('Microsoft YaHei', 20),
-    command=lambda:hsum(Decimal(num1_entry.get()), Decimal(num2_entry.get()))
+    command=lambda:pre_calc(txt, 'hsum')
     )
 sum_button.grid(row=4, column=0)
 
 sub_button = tk.Button(
     win, text='-', justify=tk.CENTER, width=10, font=('Microsoft YaHei', 20),
-    command=lambda:hsub(Decimal(num1_entry.get()), Decimal(num2_entry.get()))
+    command=lambda:pre_calc(txt, 'hsub')
     )
 sub_button.grid(row=4, column=1)
 
 sub_button = tk.Button(
     win, text='**', justify=tk.CENTER, width=10, font=('Microsoft YaHei', 20),
-    command=lambda:hpow(Decimal(num1_entry.get()), Decimal(num2_entry.get()))
+    command=lambda:pre_calc(txt, 'hpow')
     )
 sub_button.grid(row=4, column=2)
 
 mul_button = tk.Button(
     win, text='x', justify=tk.LEFT, width=10, font=('Microsoft YaHei', 20),
-    command=lambda:hmul(Decimal(num1_entry.get()), Decimal(num2_entry.get()))
+    command=lambda:pre_calc(txt, 'hmul')
     )
 mul_button.grid(row=5, column=0)
 
 div_button = tk.Button(
     win, text='/', justify=tk.LEFT, width=10, font=('Microsoft YaHei', 20),
-    command=lambda:hdiv(Decimal(num1_entry.get()), Decimal(num2_entry.get()), int(num3_entry.get()))
+    command=lambda:pre_calc(txt, 'hdiv')
     )
 div_button.grid(row=5, column=1)
 
 div_button = tk.Button(
     win, text='calc', justify=tk.LEFT, width=10, font=('Microsoft YaHei', 20), bg='lightcyan',
-    command=lambda:calc_input(txt.get('1.0', tk.END))
+    command=lambda:pre_calc(txt, 'calc_input')
     )
 div_button.grid(row=5, column=2)
+
+clr_button = tk.Button(
+    win, text='reset', justify=tk.LEFT, width=10, font=('Microsoft YaHei', 20),
+    command=lambda:reset_all()
+    )
+clr_button.grid(row=7, column=2)
 
 win.mainloop()
