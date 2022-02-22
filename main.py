@@ -1,5 +1,4 @@
 import tkinter as tk
-import tkinter.messagebox
 import decimal
 from decimal import Decimal
 
@@ -92,16 +91,28 @@ num3_entry = tk.Entry(win, justify=tk.LEFT, width=15, font=('Microsoft YaHei', 2
 num3_entry.grid(row=7, column=1)
 num3_entry.insert(0, 10)
 
-sum_button = tk.Button(win, text='+', justify=tk.CENTER, width=10, font=('Microsoft YaHei', 20) ,command=lambda:hsum(Decimal(num1_entry.get()), Decimal(num2_entry.get())))  # 文本框创建
+sum_button = tk.Button(
+    win, text='+', justify=tk.CENTER, width=10, font=('Microsoft YaHei', 20),
+    command=lambda:hsum(Decimal(num1_entry.get()), Decimal(num2_entry.get()))
+    )
 sum_button.grid(row=4, column=0)
 
-sub_button = tk.Button(win, text='-', justify=tk.CENTER, width=10, font=('Microsoft YaHei', 20), command=lambda:hsub(Decimal(num1_entry.get()), Decimal(num2_entry.get())))  # 文本框创建
+sub_button = tk.Button(
+    win, text='-', justify=tk.CENTER, width=10, font=('Microsoft YaHei', 20),
+    command=lambda:hsub(Decimal(num1_entry.get()), Decimal(num2_entry.get()))
+    )
 sub_button.grid(row=4, column=1)
 
-mul_button = tk.Button(win, text='x', justify=tk.LEFT, width=10, font=('Microsoft YaHei', 20), command=lambda:hmul(Decimal(num1_entry.get()), Decimal(num2_entry.get()))) # 文本框创建
+mul_button = tk.Button(
+    win, text='x', justify=tk.LEFT, width=10, font=('Microsoft YaHei', 20),
+    command=lambda:hmul(Decimal(num1_entry.get()), Decimal(num2_entry.get()))
+    )
 mul_button.grid(row=5, column=0)
 
-div_button = tk.Button(win, text='/', justify=tk.LEFT, width=10, font=('Microsoft YaHei', 20), command=lambda:hdiv(Decimal(num1_entry.get()), Decimal(num2_entry.get()), int(num3_entry.get())))  # 文本框创建
+div_button = tk.Button(
+    win, text='/', justify=tk.LEFT, width=10, font=('Microsoft YaHei', 20),
+    command=lambda:hdiv(Decimal(num1_entry.get()), Decimal(num2_entry.get()), int(num3_entry.get()))
+    )
 div_button.grid(row=5, column=1)
 
 win.mainloop()
