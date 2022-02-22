@@ -63,6 +63,17 @@ def hsub(a, b):
     txt.insert('1.0', a-b)
 
 
+def hpow(a, b):
+    txt.delete('1.0', tk.END)
+    txt.insert('1.0', a**b)
+
+
+# like (2**342)*(3**38)*(5**48)*(7**8)*(11**4)*(13**4)*(17**4)*(19**4)*(37**2)*(7440427**2)
+def calc_input(s):
+    txt.delete('1.0', tk.END)
+    txt.insert('1.0', eval(s))
+
+
 decimal.getcontext().prec = decimal.MAX_PREC
 
 win = tk.Tk()
@@ -103,6 +114,12 @@ sub_button = tk.Button(
     )
 sub_button.grid(row=4, column=1)
 
+sub_button = tk.Button(
+    win, text='**', justify=tk.CENTER, width=10, font=('Microsoft YaHei', 20),
+    command=lambda:hpow(Decimal(num1_entry.get()), Decimal(num2_entry.get()))
+    )
+sub_button.grid(row=4, column=2)
+
 mul_button = tk.Button(
     win, text='x', justify=tk.LEFT, width=10, font=('Microsoft YaHei', 20),
     command=lambda:hmul(Decimal(num1_entry.get()), Decimal(num2_entry.get()))
@@ -114,5 +131,11 @@ div_button = tk.Button(
     command=lambda:hdiv(Decimal(num1_entry.get()), Decimal(num2_entry.get()), int(num3_entry.get()))
     )
 div_button.grid(row=5, column=1)
+
+div_button = tk.Button(
+    win, text='calc', justify=tk.LEFT, width=10, font=('Microsoft YaHei', 20), bg='lightcyan',
+    command=lambda:calc_input(txt.get('1.0', tk.END))
+    )
+div_button.grid(row=5, column=2)
 
 win.mainloop()
