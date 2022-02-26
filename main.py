@@ -64,6 +64,16 @@ def hsub(output_txt, a, b):
     output_txt.insert('1.0', a-b)
 
 
+def d2b(output_txt, a):
+    output_txt.delete('1.0', tk.END)
+    output_txt.insert('1.0', int(bin(int(a))[2:]))
+
+
+def b2d(output_txt, a):
+    output_txt.delete('1.0', tk.END)
+    output_txt.insert('1.0', int(str(a), 2))
+
+
 def hpow(output_txt, a, b):
     output_txt.delete('1.0', tk.END)
     if b < 1:
@@ -92,6 +102,10 @@ def pre_calc(output_txt, func_type):
         hmul(output_txt, Decimal(num1_entry.get()), Decimal(num2_entry.get()))
     elif func_type == 'hdiv':
         hdiv(output_txt, Decimal(num1_entry.get()), Decimal(num2_entry.get()), int(num3_entry.get()))
+    elif func_type == 'd2b':
+        d2b(output_txt, Decimal(num1_entry.get()))
+    elif func_type == 'b2d':
+        b2d(output_txt, Decimal(num1_entry.get()))
     elif func_type == 'hpow':
         hpow(output_txt, Decimal(num1_entry.get()), Decimal(num2_entry.get()))
     elif func_type == 'calc_input':
@@ -114,7 +128,7 @@ decimal.getcontext().prec = decimal.MAX_PREC
 
 win = tk.Tk()
 win.title("IntCalc")
-win.geometry('650x600')
+win.geometry('800x650')
 
 bg=tk.Label(win, text='IntCalc', justify=tk.CENTER, height=2, width=50 ,font=('Microsoft YaHei', 20))
 bg.grid(row=0, columnspan=6)
@@ -132,52 +146,64 @@ num2_label.grid(row=3, column=0)
 num2_entry = tk.Entry(win, justify=tk.LEFT, width=30, font=('Microsoft YaHei', 20))
 num2_entry.grid(row=3, column=1, columnspan=5)
 
-num3_label = tk.Label(win, text='除法精度',justify=tk.LEFT, height=2, width=5, font=('Microsoft YaHei', 13))
-num3_label.grid(row=6, column=0)
-num3_entry = tk.Entry(win, justify=tk.LEFT, width=15, font=('Microsoft YaHei', 20))
-num3_entry.grid(row=6, column=1)
+num3_label = tk.Label(win, text='除法精度',justify=tk.LEFT, height=2, width=10, font=('Microsoft YaHei', 20))
+num3_label.grid(row=4, column=0)
+num3_entry = tk.Entry(win, justify=tk.LEFT, width=30, font=('Microsoft YaHei', 20))
+num3_entry.grid(row=4, column=1, columnspan=5)
 num3_entry.insert(0, 10)
 
 sum_button = tk.Button(
     win, text='+', justify=tk.CENTER, width=10, font=('Microsoft YaHei', 20),
     command=lambda:pre_calc(txt, 'hsum')
     )
-sum_button.grid(row=4, column=0)
+sum_button.grid(row=5, column=0)
 
 sub_button = tk.Button(
     win, text='-', justify=tk.CENTER, width=10, font=('Microsoft YaHei', 20),
     command=lambda:pre_calc(txt, 'hsub')
     )
-sub_button.grid(row=4, column=1)
+sub_button.grid(row=5, column=1)
 
-sub_button = tk.Button(
-    win, text='n次方', justify=tk.CENTER, width=10, font=('Microsoft YaHei', 20),
-    command=lambda:pre_calc(txt, 'hpow')
+b_button = tk.Button(
+    win, text='二进制', justify=tk.CENTER, width=10, font=('Microsoft YaHei', 20),
+    command=lambda:pre_calc(txt, 'd2b')
     )
-sub_button.grid(row=4, column=2)
+b_button.grid(row=5, column=2)
+
+d_button = tk.Button(
+    win, text='十进制', justify=tk.CENTER, width=10, font=('Microsoft YaHei', 20),
+    command=lambda:pre_calc(txt, 'b2d')
+    )
+d_button.grid(row=5, column=3)
 
 mul_button = tk.Button(
     win, text='x', justify=tk.LEFT, width=10, font=('Microsoft YaHei', 20),
     command=lambda:pre_calc(txt, 'hmul')
     )
-mul_button.grid(row=5, column=0)
+mul_button.grid(row=6, column=0)
 
 div_button = tk.Button(
     win, text='/', justify=tk.LEFT, width=10, font=('Microsoft YaHei', 20),
     command=lambda:pre_calc(txt, 'hdiv')
     )
-div_button.grid(row=5, column=1)
+div_button.grid(row=6, column=1)
 
-div_button = tk.Button(
+n_button = tk.Button(
+    win, text='n次方', justify=tk.CENTER, width=10, font=('Microsoft YaHei', 20),
+    command=lambda:pre_calc(txt, 'hpow')
+    )
+n_button.grid(row=6, column=2)
+
+calc_button = tk.Button(
     win, text='算式', justify=tk.LEFT, width=10, font=('Microsoft YaHei', 20), bg='lightcyan',
     command=lambda:pre_calc(txt, 'calc_input')
     )
-div_button.grid(row=5, column=2)
+calc_button.grid(row=6, column=3)
 
 clr_button = tk.Button(
     win, text='清屏', justify=tk.LEFT, width=10, font=('Microsoft YaHei', 20),
     command=lambda:reset_all()
     )
-clr_button.grid(row=7, column=2)
+clr_button.grid(row=7, column=3)
 
 win.mainloop()
