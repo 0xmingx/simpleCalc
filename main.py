@@ -128,7 +128,7 @@ decimal.getcontext().prec = decimal.MAX_PREC
 
 win = tk.Tk()
 win.title("IntCalc")
-win.geometry('800x650')
+win.geometry('800x950')
 
 bg=tk.Label(win, text='IntCalc', justify=tk.CENTER, height=2, width=50 ,font=('Microsoft YaHei', 20))
 bg.grid(row=0, columnspan=6)
