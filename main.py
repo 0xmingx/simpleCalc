@@ -2,6 +2,7 @@ import tkinter as tk
 import tkinter.messagebox
 import decimal
 from decimal import Decimal
+from math import sqrt
 
 
 def hdiv(output_txt, dividend, divisor, accuracy=0):
@@ -34,7 +35,10 @@ def hdiv(output_txt, dividend, divisor, accuracy=0):
     integer = round(dividend // divisor)
 
     # 将结果添加入结果
-    res += str(integer) + '.'
+    if accuracy == 0:
+        res += str(integer)
+    else:
+        res += str(integer) + '.'
 
     # 计算余数
     remainder = dividend % divisor
@@ -47,6 +51,7 @@ def hdiv(output_txt, dividend, divisor, accuracy=0):
     
     output_txt.delete('1.0', tk.END)
     output_txt.insert('1.0', res)
+    return res
 
 
 def hmul(output_txt, a, b):
@@ -88,6 +93,29 @@ def calc_input(output_txt, s):
     output_txt.insert('1.0', eval(s))
 
 
+def is_prime(output_txt, a):
+    out_s = f'{a} 是质数'
+
+    if a == 0:
+        out_s = '0 不是质数'
+    elif a == 1:
+        out_s = '1 不是质数'
+    elif a == 2:
+        out_s = '2 是质数'
+    elif a > 2:
+        if a % 2 == 0:
+            b = hdiv(output_txt, a, 2)
+            out_s = f'{a} 除以 2 等于 {b}, 不是质数'
+        for x in range(3, int(sqrt(a) + 1), 2):
+            if a % x == 0:
+                b = hdiv(output_txt, a, x)
+                out_s = f'{a} 除以 {x} 等于 {b}, 不是质数'
+                break
+
+    output_txt.delete('1.0', tk.END)
+    output_txt.insert('1.0', out_s)
+
+
 def pre_calc(output_txt, func_type):
 
     if num1_entry.get()=='' or num1_entry.get()=='':
@@ -114,6 +142,8 @@ def pre_calc(output_txt, func_type):
             calc_input(output_txt, equation)
         except SyntaxError:
             return tkinter.messagebox.showinfo('提示', '输入错误\n%s'%equation)
+    elif func_type == 'is_prime':
+        is_prime(output_txt, Decimal(num1_entry.get()))
 
 
 def reset_all():
@@ -199,6 +229,12 @@ calc_button = tk.Button(
     command=lambda:pre_calc(txt, 'calc_input')
     )
 calc_button.grid(row=6, column=3)
+
+is_prime_button = tk.Button(
+    win, text='质数判断', justify=tk.LEFT, width=10, font=('Microsoft YaHei', 20), bg='lightcyan',
+    command=lambda:pre_calc(txt, 'is_prime')
+)
+is_prime_button.grid(row=7, column=1)
 
 clr_button = tk.Button(
     win, text='清屏', justify=tk.LEFT, width=10, font=('Microsoft YaHei', 20),
