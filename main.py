@@ -228,10 +228,10 @@ calc_button = tk.Button(
     win, text='算式', justify=tk.LEFT, width=10, font=('Microsoft YaHei', 20), bg='lightcyan',
     command=lambda:pre_calc(txt, 'calc_input')
     )
-calc_button.grid(row=6, column=3)
+calc_button.grid(row=7, column=0)
 
 is_prime_button = tk.Button(
-    win, text='质数判断', justify=tk.LEFT, width=10, font=('Microsoft YaHei', 20), bg='lightcyan',
+    win, text='质数判断', justify=tk.LEFT, width=10, font=('Microsoft YaHei', 20),
     command=lambda:pre_calc(txt, 'is_prime')
 )
 is_prime_button.grid(row=7, column=1)
