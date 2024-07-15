@@ -96,10 +96,8 @@ def calc_input(output_txt, s):
 def is_prime(output_txt, a):
     out_s = f'{a} 是质数'
 
-    if a == 0:
-        out_s = '0 不是质数'
-    elif a == 1:
-        out_s = '1 不是质数'
+    if a <= 1:
+        out_s = f'{a} 不是质数'
     elif a == 2:
         out_s = '2 是质数'
     elif a > 2:
